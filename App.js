@@ -15,28 +15,41 @@ import Loader from './components/Loader';
 
 export default function App() {
 
-  const [events, setEvents] = useState([{ "_id": "123", "event_image": null, "event_name": "Hello", "event_type": "Hello 2" }])
+  const [events, setEvents] = useState([])
   const [pageno,setPageno] = useState(-1)
+  const [loading,setLoadin] = useState(true)
 
   const  getUsers =async () => {
     await axios.get(`${process.env.EXPO_PUBLIC_API_URL}${pageno}`, {
       headers: {
         Authorization: process.env.EXPO_PUBLIC_BTOKEN
       }
-    }).then(response => setEvents(response.data.data));
+    }).then(response => {
+      const newData = response.data.data.slice(0, 2); 
+      setEvents((prevEvents) => [...prevEvents, ...newData]);
+    });
+    setLoadin(false)
   }
 
   const loadMore = ()=>{
-    setPageno(pageno+1);
+    const elen = events.length
+    const nid = events[elen -1 ]._id
+    console.log(nid)
+    setPageno(nid);
   }
 
   useEffect(() => {
     getUsers();
   }, [pageno])
 
+
+  if(loading){
+    return( <Loader />)
+  }
+
   return (
     <View style={styles.container}>
-      {console.log(pageno)}
+      {/* {console.log(events)} */}
       <View style={styles.topbar}>
         <Text style={styles.head}>View your Events here</Text>
       </View>
