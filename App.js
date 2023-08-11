@@ -5,8 +5,6 @@ import Event from './components/Event';
 import { useEffect, useState } from 'react';
 import Loader from './components/Loader';
 
-
-
 // name image type 
 
 // 2 events in a page
@@ -34,7 +32,6 @@ export default function App() {
   const loadMore = ()=>{
     const elen = events.length
     const nid = events[elen -1 ]._id
-    console.log(nid)
     setPageno(nid);
   }
 
@@ -49,7 +46,6 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {/* {console.log(events)} */}
       <View style={styles.topbar}>
         <Text style={styles.head}>View your Events here</Text>
       </View>
